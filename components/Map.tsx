@@ -70,18 +70,12 @@ function UserLocationMarker({ location }: { location: { lat: number; lng: number
             position={[location.lat, location.lng]}
             icon={L.divIcon({
                 className: 'custom-user-marker',
-                html: `<div class="relative">
-                         <div class="absolute inset-0 w-10 h-10 bg-blue-500 rounded-full animate-ping opacity-75"></div>
-                         <div class="relative w-10 h-10 bg-blue-600 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="white" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                             <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
-                             <circle cx="12" cy="10" r="3"/>
-                           </svg>
-                         </div>
+                html: `<div class="user-pin">
+                         <div class="user-pulse"></div>
                        </div>`,
-                iconSize: [40, 40],
-                iconAnchor: [20, 40],
-                popupAnchor: [0, -40]
+                iconSize: [20, 20],
+                iconAnchor: [10, 10],
+                popupAnchor: [0, -10]
             })}
         >
             <Popup>You are here</Popup>
@@ -106,12 +100,13 @@ export default function Map({ locations, onAddLocation, userLocation, selectedLo
                     position={[loc.lat, loc.lng]}
                     icon={L.divIcon({
                         className: 'custom-marker',
-                        html: `<div class="w-8 h-8 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
-                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                        html: `<div class="pin-3d">
+                                 <div class="pin-head"></div>
+                                 <div class="pin-shadow"></div>
                                </div>`,
-                        iconSize: [32, 32],
-                        iconAnchor: [16, 32],
-                        popupAnchor: [0, -32]
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30],
+                        popupAnchor: [0, -30]
                     })}
                     eventHandlers={{
                         click: () => {

@@ -25,7 +25,7 @@
     --ring: 222.2 84% 4.9%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -48,18 +48,111 @@
     --ring: 212.7 26.8% 83.9%;
   }
 }
- 
+
 @layer base {
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background text-foreground;
   }
 }
 
-html, body, #__next {
+html,
+body,
+#__next {
   height: 100%;
   width: 100%;
   overflow: hidden;
+}
+
+/* 3D Pin Styles */
+.pin-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.pin-head {
+  width: 30px;
+  height: 30px;
+  background: hsl(var(--primary));
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: -2px 2px 4px rgba(0, 0, 0, 0.3);
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.pin-head::after {
+  content: '';
+  width: 14px;
+  height: 14px;
+  background: hsl(var(--background));
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.pin-shadow {
+  width: 12px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 50%;
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  filter: blur(1px);
+}
+
+.custom-marker:hover .pin-head {
+  /* Move up visually (accounting for rotation) and scale */
+  transform: rotate(-45deg) scale(1.15) translate(2px, -2px);
+  background: hsl(var(--primary));
+}
+
+.custom-marker:hover .pin-shadow {
+  width: 8px;
+  opacity: 0.5;
+  transform: translateX(-50%) scale(0.8);
+  transition: all 0.2s ease;
+}
+
+/* User Location Pulse */
+.user-pin {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  background: #3b82f6;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.user-pulse {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40px;
+  height: 40px;
+  background: rgba(59, 130, 246, 0.4);
+  border-radius: 50%;
+  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
 }
