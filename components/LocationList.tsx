@@ -51,73 +51,56 @@ export function LocationList({ locations, userLocation, onSelectLocation }: Loca
                 {sortedLocations.map(loc => (
                     <Card
                         key={loc.id}
-                        className="cursor-pointer hover:shadow-lg hover:border-primary/50 transition-all duration-200 overflow-hidden group"
+                        className="cursor-pointer hover:shadow-xl transition-all duration-300 overflow-hidden border-none bg-gradient-to-br from-card to-card/80 hover:scale-[1.02]"
                         onClick={() => onSelectLocation(loc)}
                     >
-                        <div className="relative">
-                            {/* Colored accent bar */}
-                            <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-primary to-primary/50" />
-
-                            <CardHeader className="p-4 pb-2 pl-5">
-                                <div className="flex items-start justify-between gap-2">
-                                    <div className="flex-1 min-w-0">
-                                        <CardTitle className="text-base font-semibold leading-tight mb-1 group-hover:text-primary transition-colors">
-                                            {loc.name}
-                                        </CardTitle>
-                                        <div className="flex items-center gap-1.5 text-sm font-medium text-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <rect width="20" height="14" x="2" y="5" rx="2" />
-                                                <line x1="2" x2="22" y1="10" y2="10" />
-                                            </svg>
-                                            <span className="truncate">{loc.bank}</span>
-                                        </div>
+                        <CardHeader className="p-5 pb-3 bg-gradient-to-r from-primary/5 to-transparent">
+                            <div className="flex items-start justify-between gap-3">
+                                <div className="flex-1 min-w-0">
+                                    <CardTitle className="text-lg font-bold mb-2 text-foreground">
+                                        {loc.name}
+                                    </CardTitle>
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 rounded-full">
+                                        <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                                        <span className="text-sm font-semibold text-primary">{loc.bank}</span>
                                     </div>
-                                    {userLocation && (
-                                        <div className="flex flex-col items-end shrink-0">
-                                            <div className="flex items-center gap-1 text-xs font-semibold text-primary bg-primary/10 px-2 py-1 rounded-full">
-                                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
-                                                    <circle cx="12" cy="10" r="3" />
-                                                </svg>
-                                                {(getDistance(userLocation, { latitude: loc.lat, longitude: loc.lng }) / 1000).toFixed(1)} km
-                                            </div>
-                                        </div>
-                                    )}
                                 </div>
-                            </CardHeader>
+                                {userLocation && (
+                                    <div className="shrink-0 text-right">
+                                        <div className="text-2xl font-bold text-primary">
+                                            {(getDistance(userLocation, { latitude: loc.lat, longitude: loc.lng }) / 1000).toFixed(1)}
+                                        </div>
+                                        <div className="text-xs text-muted-foreground font-medium">km away</div>
+                                    </div>
+                                )}
+                            </div>
+                        </CardHeader>
 
-                            <CardContent className="p-4 pt-2 pl-5 space-y-1.5">
-                                {loc.branch && (
-                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0">
+                        <CardContent className="p-5 pt-3 space-y-2.5">
+                            {loc.branch && (
+                                <div className="flex items-center gap-2.5 text-sm">
+                                    <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
                                             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
                                             <polyline points="9 22 9 12 15 12 15 22" />
                                         </svg>
-                                        <span className="truncate">{loc.branch}</span>
                                     </div>
-                                )}
-                                {loc.address && (
-                                    <div className="flex items-start gap-2 text-sm text-muted-foreground">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0 mt-0.5">
-                                            <line x1="2" x2="5" y1="12" y2="12" />
-                                            <line x1="19" x2="22" y1="12" y2="12" />
-                                            <line x1="12" x2="12" y1="2" y2="5" />
-                                            <line x1="12" x2="12" y1="19" y2="22" />
-                                            <circle cx="12" cy="12" r="7" />
-                                        </svg>
-                                        <span className="line-clamp-2 flex-1">{loc.address}</span>
-                                    </div>
-                                )}
-
-                                {/* Quick action indicator */}
-                                <div className="flex items-center gap-1 text-xs text-muted-foreground/60 pt-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                        <polyline points="9 18 15 12 9 6" />
-                                    </svg>
-                                    <span>Click to view on map</span>
+                                    <span className="text-foreground font-medium">{loc.branch}</span>
                                 </div>
-                            </CardContent>
-                        </div>
+                            )}
+                            {loc.address && (
+                                <div className="flex items-start gap-2.5 text-sm">
+                                    <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary">
+                                            <circle cx="12" cy="12" r="10" />
+                                            <line x1="2" x2="22" y1="12" y2="12" />
+                                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                                        </svg>
+                                    </div>
+                                    <span className="text-muted-foreground line-clamp-2 flex-1 pt-1.5">{loc.address}</span>
+                                </div>
+                            )}
+                        </CardContent>
                     </Card>
                 ))}
             </div>
