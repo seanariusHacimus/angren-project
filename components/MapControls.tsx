@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useMap, TileLayer as LeafletTileLayer } from 'react-leaflet';
+import { useTheme } from 'next-themes';
 import { Button } from '@/components/ui/button';
 import {
     DropdownMenu,
@@ -9,7 +10,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { ZoomIn, ZoomOut, Crosshair, Layers, Check } from 'lucide-react';
+import { ZoomIn, ZoomOut, Crosshair, Layers, Check, Sun, Moon } from 'lucide-react';
 
 interface MapControlsProps {
     userLocation: { lat: number; lng: number } | null;
@@ -54,6 +55,12 @@ function TileLayerSwitcher({ selectedLayer }: { selectedLayer: string }) {
 export function MapControls({ userLocation }: MapControlsProps) {
     const map = useMap();
     const [selectedLayer, setSelectedLayer] = useState('OpenStreetMap');
+    const { theme, setTheme } = useTheme();
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleZoomIn = () => {
         map.zoomIn();
@@ -71,6 +78,10 @@ export function MapControls({ userLocation }: MapControlsProps) {
         } else {
             alert("Location not found yet. Please allow location access.");
         }
+    };
+
+    const toggleTheme = () => {
+        setTheme(theme === 'dark' ? 'light' : 'dark');
     };
 
     return (
@@ -139,6 +150,19 @@ export function MapControls({ userLocation }: MapControlsProps) {
                 >
                     <Crosshair className={userLocation ? "h-4 w-4 text-blue-600 animate-pulse" : "h-4 w-4"} />
                 </Button>
+
+                {/* Theme Toggle Button */}
+                {mounted && (
+                    <Button
+                        variant="outline"
+                        size="icon"
+                        className="h-10 w-10 bg-background shadow-lg hover:bg-primary/10"
+                        onClick={toggleTheme}
+                        title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                    >
+                        {theme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                    </Button>
+                )}
             </div>
         </>
     );
