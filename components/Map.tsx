@@ -1,11 +1,12 @@
 'use client';
 
 import { useEffect } from 'react';
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, ZoomControl, LayersControl, ScaleControl } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import { Location } from '@/lib/storage';
 import { Button } from '@/components/ui/button';
 import { Navigation } from 'lucide-react';
+import { MapControls } from './MapControls';
 
 // Fix for default marker icon
 // @ts-ignore
@@ -77,94 +78,21 @@ function UserLocationMarker({ location }: { location: { lat: number; lng: number
     );
 }
 
-function LocateControl({ userLocation }: { userLocation: { lat: number; lng: number } | null }) {
-    const map = useMap();
-
-    useEffect(() => {
-        const Control = L.Control.extend({
-            onAdd: () => {
-                const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
-                const button = L.DomUtil.create('a', '', container);
-                button.href = '#';
-                button.title = 'Show my location';
-                button.style.width = '34px';
-                button.style.height = '34px';
-                button.style.display = 'flex';
-                button.style.alignItems = 'center';
-                button.style.justifyContent = 'center';
-                button.style.backgroundColor = 'white';
-                button.style.cursor = 'pointer';
-
-                button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 animate-pulse"><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>`;
-
-                L.DomEvent.on(button, 'click', (e) => {
-                    L.DomEvent.preventDefault(e);
-                    if (userLocation) {
-                        map.flyTo([userLocation.lat, userLocation.lng], 15, {
-                            duration: 1.5
-                        });
-                    } else {
-                        alert("Location not found yet. Please allow location access.");
-                    }
-                });
-
-                return container;
-            }
-        });
-
-        const control = new Control({ position: 'bottomright' });
-        control.addTo(map);
-
-        return () => {
-            control.remove();
-        };
-    }, [map, userLocation]);
-
-    return null;
-}
-
 export default function Map({ locations, onAddLocation, userLocation, selectedLocation, addLocationMode }: MapProps) {
     const defaultCenter: [number, number] = [41.0058, 70.1438]; // Angren coordinates
 
     return (
         <MapContainer center={defaultCenter} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false}>
-            <ZoomControl position="bottomright" />
-            <ScaleControl position="bottomleft" />
+            <MapControls userLocation={userLocation} />
 
-            <LayersControl position="topright">
-                <LayersControl.BaseLayer checked name="OpenStreetMap">
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    />
-                </LayersControl.BaseLayer>
-
-                <LayersControl.BaseLayer name="OSM Humanitarian">
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">HOT</a>'
-                        url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-                    />
-                </LayersControl.BaseLayer>
-
-                <LayersControl.BaseLayer name="CartoDB Light">
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
-                    />
-                </LayersControl.BaseLayer>
-
-                <LayersControl.BaseLayer name="CartoDB Dark">
-                    <TileLayer
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
-                    />
-                </LayersControl.BaseLayer>
-            </LayersControl>
+            <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
 
             <LocationMarker onAddLocation={onAddLocation} enabled={addLocationMode} />
             <FlyToLocation location={selectedLocation} />
             {userLocation && <UserLocationMarker location={userLocation} />}
-            <LocateControl userLocation={userLocation} />
 
             {locations.map((loc) => (
                 <Marker

@@ -148,7 +148,7 @@ export default function Home() {
         variant={addLocationMode ? "default" : "secondary"}
         size="icon"
         className={cn(
-          "fixed bottom-20 sm:bottom-24 right-4 z-[1000] shadow-lg w-14 h-14 sm:w-16 sm:h-16 rounded-full",
+          "fixed bottom-20 sm:bottom-24 left-4 z-[1000] shadow-lg w-14 h-14 sm:w-16 sm:h-16 rounded-full",
           addLocationMode && "bg-blue-500 hover:bg-blue-600"
         )}
         onClick={() => setAddLocationMode(!addLocationMode)}
