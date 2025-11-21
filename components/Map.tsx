@@ -93,7 +93,7 @@ export default function Map({ locations, onAddLocation, userLocation, selectedLo
     const defaultCenter: [number, number] = [41.0058, 70.1438]; // Angren coordinates
 
     return (
-        <MapContainer center={defaultCenter} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false}>
+        <MapContainer center={defaultCenter} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false} attributionControl={false}>
             <MapControls userLocation={userLocation} />
 
             <LocationMarker onAddLocation={onAddLocation} enabled={addLocationMode} />
