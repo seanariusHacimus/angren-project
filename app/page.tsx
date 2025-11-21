@@ -81,7 +81,7 @@ export default function Home() {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-30 w-80 bg-background shadow-xl transform transition-transform duration-300 ease-in-out border-r",
+          "fixed inset-y-0 left-0 z-30 w-full sm:w-96 md:w-80 bg-background shadow-xl transform transition-transform duration-300 ease-in-out border-r",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -101,10 +101,10 @@ export default function Home() {
       <Button
         variant="secondary"
         size="icon"
-        className="fixed top-4 left-4 z-40 shadow-md md:hidden"
+        className="fixed top-4 left-4 z-40 shadow-lg md:hidden h-12 w-12"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
-        {isSidebarOpen ? <X /> : <Menu />}
+        {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </Button>
 
       {/* Map Area */}
@@ -117,10 +117,10 @@ export default function Home() {
         <Button
           variant="secondary"
           size="icon"
-          className="absolute top-4 left-4 z-[400] shadow-md hidden md:flex"
+          className="absolute top-4 left-4 z-[400] shadow-lg hidden md:flex h-12 w-12"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
-          {isSidebarOpen ? <X /> : <Menu />}
+          {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </Button>
 
         <Map
@@ -134,7 +134,7 @@ export default function Home() {
 
       {/* Add Location Mode Indicator */}
       {addLocationMode && (
-        <div className="absolute top-20 left-1/2 transform -translate-x-1/2 z-[1000] bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg text-sm font-medium animate-pulse">
+        <div className="fixed top-20 left-1/2 transform -translate-x-1/2 z-[1000] bg-blue-500 text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full shadow-lg text-xs sm:text-sm font-medium animate-pulse max-w-[90vw] text-center">
           Click on map to add location
         </div>
       )}
@@ -144,13 +144,13 @@ export default function Home() {
         variant={addLocationMode ? "default" : "secondary"}
         size="icon"
         className={cn(
-          "fixed bottom-24 right-4 z-[1000] shadow-lg w-14 h-14 rounded-full",
+          "fixed bottom-20 sm:bottom-24 right-4 z-[1000] shadow-lg w-14 h-14 sm:w-16 sm:h-16 rounded-full",
           addLocationMode && "bg-blue-500 hover:bg-blue-600"
         )}
         onClick={() => setAddLocationMode(!addLocationMode)}
         title={addLocationMode ? "Cancel add location" : "Add new location"}
       >
-        <Plus className={cn("w-6 h-6", addLocationMode && "rotate-45 transition-transform")} />
+        <Plus className={cn("w-6 h-6 sm:w-7 sm:h-7", addLocationMode && "rotate-45 transition-transform")} />
       </Button>
 
       <AddLocationDialog
