@@ -97,11 +97,11 @@ export default function Home() {
         />
       </div>
 
-      {/* Toggle Sidebar Button */}
+      {/* Toggle Sidebar Button - Mobile */}
       <Button
         variant="secondary"
         size="icon"
-        className="fixed top-4 left-4 z-40 shadow-lg md:hidden h-12 w-12"
+        className="fixed top-4 left-4 z-50 shadow-lg md:hidden h-12 w-12 bg-white"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
