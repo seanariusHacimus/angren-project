@@ -124,14 +124,20 @@ export default function Home() {
         )}
       >
         {!isLoading && (
-          <Button
-            variant="secondary"
-            size="icon"
-            className="absolute top-4 left-4 z-[9999] shadow-lg hidden md:flex h-12 w-12 bg-white hover:bg-gray-100"
+          <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+            className="absolute top-4 left-4 z-[9999] p-2 bg-background border border-border rounded-md shadow-lg hover:bg-muted transition-colors hidden md:block"
           >
-            {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </Button>
+            {isSidebarOpen ? (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            ) : (
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            )}
+          </button>
         )}
 
         <Map
