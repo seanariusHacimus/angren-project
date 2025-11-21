@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
+import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import { Location } from '@/lib/storage';
 import { Button } from '@/components/ui/button';
@@ -94,89 +95,105 @@ export default function Map({ locations, onAddLocation, userLocation, selectedLo
             <FlyToLocation location={selectedLocation} />
             {userLocation && <UserLocationMarker location={userLocation} />}
 
-            {locations.map((loc) => (
-                <Marker
-                    key={loc.id}
-                    position={[loc.lat, loc.lng]}
-                    icon={L.divIcon({
-                        className: 'custom-marker',
-                        html: `<div class="pin-3d">
+            {/* @ts-ignore */}
+            <MarkerClusterGroup
+                chunkedLoading
+                iconCreateFunction={(cluster: any) => {
+                    return L.divIcon({
+                        html: `<div class="flex items-center justify-center w-10 h-10 bg-primary text-primary-foreground rounded-full shadow-lg border-2 border-background font-bold text-sm">
+                                 ${cluster.getChildCount()}
+                               </div>`,
+                        className: 'custom-cluster-icon',
+                        iconSize: L.point(40, 40, true),
+                    });
+                }}
+            >
+                {locations.map((loc) => (
+                    <Marker
+                        key={loc.id}
+                        position={[loc.lat, loc.lng]}
+                        icon={L.divIcon({
+                            className: 'custom-marker',
+                            html: `<div class="pin-3d">
                                  <div class="pin-head"></div>
                                  <div class="pin-shadow"></div>
                                </div>`,
-                        iconSize: [30, 30],
-                        iconAnchor: [15, 30],
-                        popupAnchor: [0, -30]
-                    })}
-                    eventHandlers={{
-                        click: () => {
-                            if (selectedLocation?.id !== loc.id) {
-                                onSelectLocation(loc);
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 30],
+                            popupAnchor: [0, -30]
+                        })}
+                        eventHandlers={{
+                            click: () => {
+                                if (selectedLocation?.id !== loc.id) {
+                                    onSelectLocation(loc);
+                                }
                             }
-                        }
-                    }}
-                >
-                    <Popup className="custom-popup">
-                        <div className="p-1 min-w-[250px] max-w-[300px]">
-                            <div className="flex items-center gap-2 mb-3">
-                                <div className="p-2 bg-primary/10 rounded-full shrink-0">
-                                    <Navigation className="w-4 h-4 text-primary" />
+                        }}
+                    >
+                        <Popup className="custom-popup">
+                            <div className="p-1 min-w-[250px] max-w-[300px]">
+                                <div className="flex items-center justify-between gap-2 mb-3">
+                                    <div className="flex items-center gap-2">
+                                        <div className="p-2 bg-primary/10 rounded-full shrink-0">
+                                            <Navigation className="w-4 h-4 text-primary" />
+                                        </div>
+                                        <h3 className="font-bold text-base leading-tight">{loc.name}</h3>
+                                    </div>
                                 </div>
-                                <h3 className="font-bold text-base leading-tight">{loc.name}</h3>
-                            </div>
 
-                            <div className="space-y-2 text-sm">
-                                <div className="grid grid-cols-3 gap-1">
-                                    <span className="text-muted-foreground font-medium text-xs">Bank:</span>
-                                    <span className="col-span-2 font-medium">{loc.bank}</span>
+                                <div className="space-y-2 text-sm">
+                                    <div className="grid grid-cols-3 gap-1">
+                                        <span className="text-muted-foreground font-medium text-xs">Bank:</span>
+                                        <span className="col-span-2 font-medium">{loc.bank}</span>
+                                    </div>
+                                    {loc.branch && (
+                                        <div className="grid grid-cols-3 gap-1">
+                                            <span className="text-muted-foreground font-medium text-xs">Branch:</span>
+                                            <span className="col-span-2">{loc.branch}</span>
+                                        </div>
+                                    )}
+                                    {loc.model && (
+                                        <div className="grid grid-cols-3 gap-1">
+                                            <span className="text-muted-foreground font-medium text-xs">Model:</span>
+                                            <span className="col-span-2">{loc.model}</span>
+                                        </div>
+                                    )}
+                                    {loc.city && (
+                                        <div className="grid grid-cols-3 gap-1">
+                                            <span className="text-muted-foreground font-medium text-xs">City:</span>
+                                            <span className="col-span-2">{loc.city}</span>
+                                        </div>
+                                    )}
+                                    {loc.neighborhood && (
+                                        <div className="grid grid-cols-3 gap-1">
+                                            <span className="text-muted-foreground font-medium text-xs">Area:</span>
+                                            <span className="col-span-2">{loc.neighborhood}</span>
+                                        </div>
+                                    )}
+                                    {loc.address && (
+                                        <div className="grid grid-cols-3 gap-1">
+                                            <span className="text-muted-foreground font-medium text-xs">Address:</span>
+                                            <span className="col-span-2">{loc.address}</span>
+                                        </div>
+                                    )}
+                                    {loc.status && (
+                                        <div className="grid grid-cols-3 gap-1">
+                                            <span className="text-muted-foreground font-medium text-xs">Status:</span>
+                                            <span className="col-span-2">{loc.status === '1' ? 'Active' : 'Inactive'}</span>
+                                        </div>
+                                    )}
                                 </div>
-                                {loc.branch && (
-                                    <div className="grid grid-cols-3 gap-1">
-                                        <span className="text-muted-foreground font-medium text-xs">Branch:</span>
-                                        <span className="col-span-2">{loc.branch}</span>
-                                    </div>
-                                )}
-                                {loc.model && (
-                                    <div className="grid grid-cols-3 gap-1">
-                                        <span className="text-muted-foreground font-medium text-xs">Model:</span>
-                                        <span className="col-span-2">{loc.model}</span>
-                                    </div>
-                                )}
-                                {loc.city && (
-                                    <div className="grid grid-cols-3 gap-1">
-                                        <span className="text-muted-foreground font-medium text-xs">City:</span>
-                                        <span className="col-span-2">{loc.city}</span>
-                                    </div>
-                                )}
-                                {loc.neighborhood && (
-                                    <div className="grid grid-cols-3 gap-1">
-                                        <span className="text-muted-foreground font-medium text-xs">Area:</span>
-                                        <span className="col-span-2">{loc.neighborhood}</span>
-                                    </div>
-                                )}
-                                {loc.address && (
-                                    <div className="grid grid-cols-3 gap-1">
-                                        <span className="text-muted-foreground font-medium text-xs">Address:</span>
-                                        <span className="col-span-2">{loc.address}</span>
-                                    </div>
-                                )}
-                                {loc.status && (
-                                    <div className="grid grid-cols-3 gap-1">
-                                        <span className="text-muted-foreground font-medium text-xs">Status:</span>
-                                        <span className="col-span-2">{loc.status === '1' ? 'Active' : 'Inactive'}</span>
-                                    </div>
-                                )}
-                            </div>
 
-                            <Button className="w-full mt-4 h-8 text-xs" onClick={() => {
-                                window.open(`https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`, '_blank');
-                            }}>
-                                Open in Google Maps
-                            </Button>
-                        </div>
-                    </Popup>
-                </Marker>
-            ))}
+                                <Button className="w-full mt-4 h-8 text-xs" onClick={() => {
+                                    window.open(`https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`, '_blank');
+                                }}>
+                                    Open in Google Maps
+                                </Button>
+                            </div>
+                        </Popup>
+                    </Marker>
+                ))}
+            </MarkerClusterGroup>
         </MapContainer>
     );
 }
