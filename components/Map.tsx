@@ -85,11 +85,6 @@ export default function Map({ locations, onAddLocation, userLocation, selectedLo
         <MapContainer center={defaultCenter} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false}>
             <MapControls userLocation={userLocation} />
 
-            <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-
             <LocationMarker onAddLocation={onAddLocation} enabled={addLocationMode} />
             <FlyToLocation location={selectedLocation} />
             {userLocation && <UserLocationMarker location={userLocation} />}
