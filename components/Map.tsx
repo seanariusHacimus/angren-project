@@ -1,0 +1,246 @@
+'use client';
+
+import { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, ZoomControl, LayersControl, ScaleControl } from 'react-leaflet';
+import L from 'leaflet';
+import { Location } from '@/lib/storage';
+import { Button } from '@/components/ui/button';
+import { Navigation } from 'lucide-react';
+
+// Fix for default marker icon
+// @ts-ignore
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+    iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
+    iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
+    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+});
+
+interface MapProps {
+    locations: Location[];
+    onAddLocation: (lat: number, lng: number) => void;
+    userLocation: { lat: number; lng: number } | null;
+    selectedLocation: Location | null;
+    addLocationMode: boolean;
+}
+
+function LocationMarker({ onAddLocation, enabled }: { onAddLocation: (lat: number, lng: number) => void; enabled: boolean }) {
+    const map = useMap();
+
+    useMapEvents({
+        click(e: L.LeafletMouseEvent) {
+            if (enabled) {
+                onAddLocation(e.latlng.lat, e.latlng.lng);
+            }
+        },
+    });
+
+    // Change cursor when in add location mode
+    useEffect(() => {
+        if (map) {
+            const container = map.getContainer();
+            if (enabled) {
+                container.style.cursor = 'crosshair';
+            } else {
+                container.style.cursor = '';
+            }
+        }
+    }, [enabled, map]);
+
+    return null;
+}
+
+function FlyToLocation({ location }: { location: Location | null }) {
+    const map = useMap();
+    useEffect(() => {
+        if (location) {
+            map.flyTo([location.lat, location.lng], 16, {
+                duration: 1.5
+            });
+        }
+    }, [location, map]);
+    return null;
+}
+
+function UserLocationMarker({ location }: { location: { lat: number; lng: number } | null }) {
+    return location === null ? null : (
+        <Marker position={[location.lat, location.lng]} icon={new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-blue.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        })}>
+            <Popup>You are here</Popup>
+        </Marker>
+    );
+}
+
+function LocateControl({ userLocation }: { userLocation: { lat: number; lng: number } | null }) {
+    const map = useMap();
+
+    useEffect(() => {
+        const Control = L.Control.extend({
+            onAdd: () => {
+                const container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
+                const button = L.DomUtil.create('a', '', container);
+                button.href = '#';
+                button.title = 'Show my location';
+                button.style.width = '34px';
+                button.style.height = '34px';
+                button.style.display = 'flex';
+                button.style.alignItems = 'center';
+                button.style.justifyContent = 'center';
+                button.style.backgroundColor = 'white';
+                button.style.cursor = 'pointer';
+
+                button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-600 animate-pulse"><line x1="12" x2="12" y1="2" y2="5"/><line x1="12" x2="12" y1="19" y2="22"/><line x1="2" x2="5" y1="12" y2="12"/><line x1="19" x2="22" y1="12" y2="12"/><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="3"/></svg>`;
+
+                L.DomEvent.on(button, 'click', (e) => {
+                    L.DomEvent.preventDefault(e);
+                    if (userLocation) {
+                        map.flyTo([userLocation.lat, userLocation.lng], 15, {
+                            duration: 1.5
+                        });
+                    } else {
+                        alert("Location not found yet. Please allow location access.");
+                    }
+                });
+
+                return container;
+            }
+        });
+
+        const control = new Control({ position: 'bottomright' });
+        control.addTo(map);
+
+        return () => {
+            control.remove();
+        };
+    }, [map, userLocation]);
+
+    return null;
+}
+
+export default function Map({ locations, onAddLocation, userLocation, selectedLocation, addLocationMode }: MapProps) {
+    const defaultCenter: [number, number] = [41.0058, 70.1438]; // Angren coordinates
+
+    return (
+        <MapContainer center={defaultCenter} zoom={13} style={{ height: '100%', width: '100%' }} zoomControl={false}>
+            <ZoomControl position="bottomright" />
+            <ScaleControl position="bottomleft" />
+
+            <LayersControl position="topright">
+                <LayersControl.BaseLayer checked name="OpenStreetMap">
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                    />
+                </LayersControl.BaseLayer>
+
+                <LayersControl.BaseLayer name="OSM Humanitarian">
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Tiles style by <a href="https://www.hotosm.org/" target="_blank">HOT</a>'
+                        url="https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
+                    />
+                </LayersControl.BaseLayer>
+
+                <LayersControl.BaseLayer name="CartoDB Light">
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
+                    />
+                </LayersControl.BaseLayer>
+
+                <LayersControl.BaseLayer name="CartoDB Dark">
+                    <TileLayer
+                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+                        url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+                    />
+                </LayersControl.BaseLayer>
+            </LayersControl>
+
+            <LocationMarker onAddLocation={onAddLocation} enabled={addLocationMode} />
+            <FlyToLocation location={selectedLocation} />
+            {userLocation && <UserLocationMarker location={userLocation} />}
+            <LocateControl userLocation={userLocation} />
+
+            {locations.map((loc) => (
+                <Marker
+                    key={loc.id}
+                    position={[loc.lat, loc.lng]}
+                    icon={L.divIcon({
+                        className: 'custom-marker',
+                        html: `<div class="w-8 h-8 bg-red-500 rounded-full border-2 border-white shadow-lg flex items-center justify-center">
+                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+                               </div>`,
+                        iconSize: [32, 32],
+                        iconAnchor: [16, 32],
+                        popupAnchor: [0, -32]
+                    })}
+                >
+                    <Popup className="custom-popup">
+                        <div className="p-1 min-w-[250px] max-w-[300px]">
+                            <div className="flex items-center gap-2 mb-3">
+                                <div className="p-2 bg-primary/10 rounded-full shrink-0">
+                                    <Navigation className="w-4 h-4 text-primary" />
+                                </div>
+                                <h3 className="font-bold text-base leading-tight">{loc.name}</h3>
+                            </div>
+
+                            <div className="space-y-2 text-sm">
+                                <div className="grid grid-cols-3 gap-1">
+                                    <span className="text-muted-foreground font-medium text-xs">Bank:</span>
+                                    <span className="col-span-2 font-medium">{loc.bank}</span>
+                                </div>
+                                {loc.branch && (
+                                    <div className="grid grid-cols-3 gap-1">
+                                        <span className="text-muted-foreground font-medium text-xs">Branch:</span>
+                                        <span className="col-span-2">{loc.branch}</span>
+                                    </div>
+                                )}
+                                {loc.model && (
+                                    <div className="grid grid-cols-3 gap-1">
+                                        <span className="text-muted-foreground font-medium text-xs">Model:</span>
+                                        <span className="col-span-2">{loc.model}</span>
+                                    </div>
+                                )}
+                                {loc.city && (
+                                    <div className="grid grid-cols-3 gap-1">
+                                        <span className="text-muted-foreground font-medium text-xs">City:</span>
+                                        <span className="col-span-2">{loc.city}</span>
+                                    </div>
+                                )}
+                                {loc.neighborhood && (
+                                    <div className="grid grid-cols-3 gap-1">
+                                        <span className="text-muted-foreground font-medium text-xs">Area:</span>
+                                        <span className="col-span-2">{loc.neighborhood}</span>
+                                    </div>
+                                )}
+                                {loc.address && (
+                                    <div className="grid grid-cols-3 gap-1">
+                                        <span className="text-muted-foreground font-medium text-xs">Address:</span>
+                                        <span className="col-span-2">{loc.address}</span>
+                                    </div>
+                                )}
+                                {loc.status && (
+                                    <div className="grid grid-cols-3 gap-1">
+                                        <span className="text-muted-foreground font-medium text-xs">Status:</span>
+                                        <span className="col-span-2">{loc.status === '1' ? 'Active' : 'Inactive'}</span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <Button className="w-full mt-4 h-8 text-xs" onClick={() => {
+                                window.open(`https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`, '_blank');
+                            }}>
+                                Open in Google Maps
+                            </Button>
+                        </div>
+                    </Popup>
+                </Marker>
+            ))}
+        </MapContainer>
+    );
+}
