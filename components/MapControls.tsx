@@ -58,9 +58,21 @@ export function MapControls({ userLocation }: MapControlsProps) {
     const { theme, setTheme } = useTheme();
     const [mounted, setMounted] = useState(false);
 
+    // Set mounted flag
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    // Sync map layer with theme changes
+    useEffect(() => {
+        if (!mounted) return;
+        if (theme === 'dark') {
+            setSelectedLayer('CartoDB Dark');
+        } else {
+            setSelectedLayer('CartoDB Light');
+        }
+    }, [theme, mounted]);
+
 
     const handleZoomIn = () => {
         map.zoomIn();
@@ -116,9 +128,9 @@ export function MapControls({ userLocation }: MapControlsProps) {
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button
-                            variant="outline"
+                            variant="ghost"
                             size="icon"
-                            className="h-10 w-10 bg-background shadow-lg hover:bg-primary/10"
+                            className="h-10 w-10 bg-background border rounded-lg shadow-lg hover:bg-primary/10"
                             title="Change map layer"
                         >
                             <Layers className="h-4 w-4" />
@@ -142,9 +154,9 @@ export function MapControls({ userLocation }: MapControlsProps) {
 
                 {/* Locate Me Button */}
                 <Button
-                    variant="outline"
+                    variant="ghost"
                     size="icon"
-                    className="h-10 w-10 bg-background shadow-lg hover:bg-primary/10"
+                    className="h-10 w-10 bg-background border rounded-lg shadow-lg hover:bg-primary/10"
                     onClick={handleLocate}
                     title="Show my location"
                 >
@@ -154,9 +166,9 @@ export function MapControls({ userLocation }: MapControlsProps) {
                 {/* Theme Toggle Button */}
                 {mounted && (
                     <Button
-                        variant="outline"
+                        variant="ghost"
                         size="icon"
-                        className="h-10 w-10 bg-background shadow-lg hover:bg-primary/10"
+                        className="h-10 w-10 bg-background border rounded-lg shadow-lg hover:bg-primary/10"
                         onClick={toggleTheme}
                         title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                     >
