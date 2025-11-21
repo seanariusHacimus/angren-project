@@ -101,7 +101,7 @@ export default function Home() {
       <Button
         variant="secondary"
         size="icon"
-        className="fixed top-4 left-4 z-50 shadow-lg md:hidden h-12 w-12 bg-white"
+        className="fixed top-4 left-4 z-[9999] shadow-lg md:hidden h-12 w-12 bg-white hover:bg-gray-100 opacity-100"
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       >
         {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -117,7 +117,7 @@ export default function Home() {
         <Button
           variant="secondary"
           size="icon"
-          className="absolute top-4 left-4 z-[400] shadow-lg hidden md:flex h-12 w-12"
+          className="absolute top-4 left-4 z-[9999] shadow-lg hidden md:flex h-12 w-12 bg-white hover:bg-gray-100"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         >
           {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
