@@ -88,6 +88,7 @@ export default function Home() {
         <LocationList
           locations={locations}
           userLocation={userLocation}
+          selectedLocation={selectedLocation}
           onSelectLocation={(loc) => {
             setSelectedLocation(loc);
             if (window.innerWidth < 768) {
@@ -133,6 +134,7 @@ export default function Home() {
           userLocation={userLocation}
           selectedLocation={selectedLocation}
           addLocationMode={addLocationMode}
+          onSelectLocation={setSelectedLocation}
         />
       </div>
 

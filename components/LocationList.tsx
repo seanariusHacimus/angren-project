@@ -3,7 +3,7 @@
 import { Location } from '@/lib/storage';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { getDistance } from 'geolib';
 import { Search } from 'lucide-react';
 
@@ -11,10 +11,12 @@ interface LocationListProps {
     locations: Location[];
     userLocation: { lat: number; lng: number } | null;
     onSelectLocation: (loc: Location) => void;
+    selectedLocation?: Location | null;
 }
 
-export function LocationList({ locations, userLocation, onSelectLocation }: LocationListProps) {
+export function LocationList({ locations, userLocation, onSelectLocation, selectedLocation }: LocationListProps) {
     const [search, setSearch] = useState('');
+    const cardRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     const sortedLocations = useMemo(() => {
         let filtered = locations.filter(l =>
@@ -32,6 +34,16 @@ export function LocationList({ locations, userLocation, onSelectLocation }: Loca
 
         return filtered;
     }, [locations, search, userLocation]);
+
+    // Scroll to selected location
+    useEffect(() => {
+        if (selectedLocation && cardRefs.current[selectedLocation.id]) {
+            cardRefs.current[selectedLocation.id]?.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest'
+            });
+        }
+    }, [selectedLocation]);
 
     return (
         <div className="h-full flex flex-col bg-background border-r">
@@ -51,7 +63,11 @@ export function LocationList({ locations, userLocation, onSelectLocation }: Loca
                 {sortedLocations.map(loc => (
                     <Card
                         key={loc.id}
-                        className="cursor-pointer hover:shadow-md hover:border-primary/30 transition-all duration-200 overflow-hidden border bg-card active:scale-[0.98]"
+                        ref={(el) => { cardRefs.current[loc.id] = el; }}
+                        className={`cursor-pointer transition-all duration-200 overflow-hidden border bg-card active:scale-[0.98] ${selectedLocation?.id === loc.id
+                            ? 'ring-2 ring-primary shadow-lg border-primary'
+                            : 'hover:shadow-md hover:border-primary/30'
+                            }`}
                         onClick={() => onSelectLocation(loc)}
                     >
                         <div className="p-3">
