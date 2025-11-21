@@ -144,18 +144,20 @@ export default function Home() {
       )}
 
       {/* Add Location Toggle Button */}
-      <Button
-        variant={addLocationMode ? "default" : "secondary"}
-        size="icon"
-        className={cn(
-          "fixed bottom-20 sm:bottom-24 left-4 z-[1000] shadow-lg w-14 h-14 sm:w-16 sm:h-16 rounded-full",
-          addLocationMode && "bg-blue-500 hover:bg-blue-600"
-        )}
-        onClick={() => setAddLocationMode(!addLocationMode)}
-        title={addLocationMode ? "Cancel add location" : "Add new location"}
-      >
-        <Plus className={cn("w-6 h-6 sm:w-7 sm:h-7", addLocationMode && "rotate-45 transition-transform")} />
-      </Button>
+      {!isLoading && (
+        <Button
+          variant={addLocationMode ? "default" : "secondary"}
+          className={cn(
+            "fixed bottom-4 right-4 z-[1000] shadow-lg gap-2",
+            addLocationMode && "bg-blue-500 hover:bg-blue-600"
+          )}
+          onClick={() => setAddLocationMode(!addLocationMode)}
+          title={addLocationMode ? "Cancel add location" : "Add new location"}
+        >
+          <Plus className={cn("w-5 h-5", addLocationMode && "rotate-45 transition-transform")} />
+          <span className="hidden sm:inline">{addLocationMode ? "Cancel" : "Add Location"}</span>
+        </Button>
+      )}
 
       <AddLocationDialog
         isOpen={isAddDialogOpen}
