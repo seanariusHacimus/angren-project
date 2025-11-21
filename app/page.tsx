@@ -98,14 +98,16 @@ export default function Home() {
       </div>
 
       {/* Toggle Sidebar Button - Mobile */}
-      <Button
-        variant="secondary"
-        size="icon"
-        className="fixed top-4 left-4 z-[9999] shadow-lg md:hidden h-12 w-12 bg-white hover:bg-gray-100 opacity-100"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      >
-        {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-      </Button>
+      {!isLoading && (
+        <Button
+          variant="secondary"
+          size="icon"
+          className="fixed top-4 left-4 z-[9999] shadow-lg md:hidden h-12 w-12 bg-white hover:bg-gray-100 opacity-100"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+        </Button>
+      )}
 
       {/* Map Area */}
       <div
@@ -114,14 +116,16 @@ export default function Home() {
           isSidebarOpen ? "md:ml-80" : "ml-0"
         )}
       >
-        <Button
-          variant="secondary"
-          size="icon"
-          className="absolute top-4 left-4 z-[9999] shadow-lg hidden md:flex h-12 w-12 bg-white hover:bg-gray-100"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-        >
-          {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+        {!isLoading && (
+          <Button
+            variant="secondary"
+            size="icon"
+            className="absolute top-4 left-4 z-[9999] shadow-lg hidden md:flex h-12 w-12 bg-white hover:bg-gray-100"
+            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          >
+            {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </Button>
+        )}
 
         <Map
           locations={locations}
