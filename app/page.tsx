@@ -81,7 +81,7 @@ export default function Home() {
       {/* Sidebar */}
       <div
         className={cn(
-          "fixed inset-y-0 left-0 z-30 w-full sm:w-96 md:w-80 bg-background shadow-xl transform transition-transform duration-300 ease-in-out border-r",
+          "fixed inset-y-0 left-0 z-[9998] w-full sm:w-96 md:w-80 bg-background shadow-xl transform transition-transform duration-300 ease-in-out border-r",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
