@@ -88,7 +88,7 @@ export function MapControls({ userLocation }: MapControlsProps) {
         <>
             <TileLayerSwitcher selectedLayer={selectedLayer} />
 
-            <div className="absolute top-4 right-4 z-[400] flex flex-col gap-2">
+            <div className="absolute top-4 right-4 z-[1001] flex flex-col gap-2">
                 {/* Zoom Controls */}
                 <div className="bg-background border rounded-lg shadow-lg overflow-hidden">
                     <Button

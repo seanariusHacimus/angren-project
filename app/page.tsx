@@ -100,14 +100,20 @@ export default function Home() {
 
       {/* Toggle Sidebar Button - Mobile */}
       {!isLoading && (
-        <Button
-          variant="secondary"
-          size="icon"
-          className="fixed top-4 left-4 z-[9999] shadow-lg md:hidden h-12 w-12 bg-white hover:bg-gray-100 opacity-100"
+        <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          className="md:hidden fixed top-4 left-4 z-[9999] p-2 bg-background border border-border rounded-md shadow-lg hover:bg-muted transition-colors"
         >
-          {isSidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </Button>
+          {isSidebarOpen ? (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          ) : (
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+          )}
+        </button>
       )}
 
       {/* Map Area */}
