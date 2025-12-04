@@ -21,7 +21,7 @@ export function LocationList({ locations, userLocation, onSelectLocation, select
     const sortedLocations = useMemo(() => {
         let filtered = locations.filter(l =>
             l.name.toLowerCase().includes(search.toLowerCase()) ||
-            l.bank.toLowerCase().includes(search.toLowerCase())
+            l.category.toLowerCase().includes(search.toLowerCase())
         );
 
         if (userLocation) {
@@ -90,7 +90,7 @@ export function LocationList({ locations, userLocation, onSelectLocation, select
                                             <line x1="2" x2="22" y1="10" y2="10" />
                                         </svg>
                                     </div>
-                                    <span className="text-xs font-medium text-primary">{loc.bank}</span>
+                                    <span className="text-xs font-medium text-primary">{loc.category}</span>
                                 </div>
 
                                 {loc.branch && (
@@ -105,7 +105,7 @@ export function LocationList({ locations, userLocation, onSelectLocation, select
                                     </div>
                                 )}
 
-                                {loc.address && (
+                                {loc.type && (
                                     <div className="flex items-start gap-2">
                                         <div className="w-5 h-5 bg-muted rounded flex items-center justify-center shrink-0 mt-0.5">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -113,7 +113,19 @@ export function LocationList({ locations, userLocation, onSelectLocation, select
                                                 <circle cx="12" cy="10" r="3" />
                                             </svg>
                                         </div>
-                                        <span className="text-xs text-muted-foreground line-clamp-2 flex-1">{loc.address}</span>
+                                        <span className="text-xs text-muted-foreground line-clamp-2 flex-1">{loc.type}</span>
+                                    </div>
+                                )}
+
+                                {loc.status && (
+                                    <div className="flex items-center gap-2">
+                                        <div className="w-5 h-5 bg-muted rounded flex items-center justify-center shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                <circle cx="12" cy="12" r="10" />
+                                                <polyline points="12 6 12 12 16 14" />
+                                            </svg>
+                                        </div>
+                                        <span className="text-xs text-muted-foreground truncate">{loc.status}</span>
                                     </div>
                                 )}
                             </div>

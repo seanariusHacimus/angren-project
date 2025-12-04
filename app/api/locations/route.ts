@@ -8,7 +8,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
     const body = await request.json();
-    const { lat, lng, name, bank, details } = body;
+    const { lat, lng, name, category, type } = body;
 
     if (!lat || !lng || !name) {
         return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
@@ -18,12 +18,14 @@ export async function POST(request: Request) {
         lat,
         lng,
         name,
-        bank: bank || '',
+        category: category || '',
+        type: type || '',
+        bank: '',
         branch: '',
         mfo: '',
         city: '',
         neighborhood: '',
-        address: details || '',
+        address: '',
         status: '1',
         model: ''
     });

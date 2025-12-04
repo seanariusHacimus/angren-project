@@ -1,15 +1,16 @@
 import fs from 'fs';
 import path from 'path';
-import * as XLSX from 'xlsx';
 
 const DATA_FILE = path.join(process.cwd(), 'locations.json');
-const EXCEL_FILE = path.join(process.cwd(), 'Angren bankomatlari koordinatalari.xlsx');
+const CSV_FILE = path.join(process.cwd(), 'something.csv');
 
 export interface Location {
     id: string;
     lat: number;
     lng: number;
     name: string;
+    category: string;
+    type: string;
     bank: string;
     branch: string;
     mfo: string;
@@ -22,7 +23,7 @@ export interface Location {
 
 export function getLocations(): Location[] {
     if (!fs.existsSync(DATA_FILE)) {
-        seedFromExcel();
+        seedFromCsv();
     }
     if (fs.existsSync(DATA_FILE)) {
         const data = fs.readFileSync(DATA_FILE, 'utf-8');
@@ -39,60 +40,59 @@ export function addLocation(location: Omit<Location, 'id'>): Location {
     return newLocation;
 }
 
-function seedFromExcel() {
-    if (!fs.existsSync(EXCEL_FILE)) {
-        console.warn('Excel file not found:', EXCEL_FILE);
+function seedFromCsv() {
+    if (!fs.existsSync(CSV_FILE)) {
+        console.warn('CSV file not found:', CSV_FILE);
         return;
     }
 
     try {
-        const workbook = XLSX.readFile(EXCEL_FILE);
-        const sheetName = workbook.SheetNames[0];
-        const sheet = workbook.Sheets[sheetName];
-        const data = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[][];
-
-        // Skip first 4 rows
-        const rows = data.slice(4);
+        const fileContent = fs.readFileSync(CSV_FILE, 'utf-8');
+        const lines = fileContent.split('\n');
         const locations: Location[] = [];
 
-        rows.forEach((row, index) => {
-            const coordsRaw = row[10];
-            if (typeof coordsRaw === 'string') {
-                let latStr, lngStr;
+        // Skip header row
+        for (let i = 1; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!line) continue;
 
-                if (coordsRaw.includes(';')) {
-                    [latStr, lngStr] = coordsRaw.split(';').map(s => s.trim());
-                } else if (coordsRaw.includes(',')) {
-                    [latStr, lngStr] = coordsRaw.split(',').map(s => s.trim());
-                }
+            const parts = line.split(';');
 
-                if (latStr && lngStr) {
-                    const lat = parseFloat(latStr);
-                    const lng = parseFloat(lngStr);
+            // Expected format based on something.csv:
+            // Number;Category;Name;Details_type;Details_2;Details_working_hours;Latitude;Longitude
+            // 0      1        2    3            4         5                     6        7
 
-                    if (!isNaN(lat) && !isNaN(lng)) {
-                        locations.push({
-                            id: `seed-${index}`,
-                            lat,
-                            lng,
-                            name: row[6] || 'Unknown Location',
-                            bank: row[1] || 'Unknown Bank',
-                            branch: row[2] || '',
-                            mfo: row[3] ? String(row[3]) : '',
-                            city: row[4] || '',
-                            neighborhood: row[5] || '',
-                            address: row[7] || '',
-                            status: row[8] !== undefined ? String(row[8]) : '',
-                            model: row[9] || ''
-                        });
-                    }
+            if (parts.length >= 8) {
+                const latStr = parts[6].replace(',', '.').trim();
+                const lngStr = parts[7].replace(',', '.').trim();
+
+                const lat = parseFloat(latStr);
+                const lng = parseFloat(lngStr);
+
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    locations.push({
+                        id: `seed-${i}`,
+                        lat,
+                        lng,
+                        name: parts[2]?.trim() || 'Unknown Location',
+                        category: parts[1]?.trim() || 'Unknown Category',
+                        type: parts[3]?.trim() || '',
+                        bank: '',
+                        branch: '',
+                        mfo: '',
+                        city: '',
+                        neighborhood: '',
+                        address: '',
+                        status: parts[5]?.trim() || '',
+                        model: parts[4]?.trim() || ''
+                    });
                 }
             }
-        });
+        }
 
         fs.writeFileSync(DATA_FILE, JSON.stringify(locations, null, 2));
-        console.log(`Seeded ${locations.length} locations from Excel.`);
+        console.log(`Seeded ${locations.length} locations from CSV.`);
     } catch (error) {
-        console.error('Error seeding from Excel:', error);
+        console.error('Error seeding from CSV:', error);
     }
 }

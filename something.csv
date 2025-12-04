@@ -1,0 +1,198 @@
+﻿Number;Category;Name;Details_type;Details_2_number_of_employees/students;Details_working_hours;Latitude;Longitude
+1;Bank;Hayot bank;BXO;;;41.011348;70.085857
+2;Bank;Anorbank;Sotuv ofisi;;;41.008369;70.059046
+3;Bank;Kapitalbank;BXO;;;41.016018;70.082322
+4;Bank;Kapitalbank;BXO;;;41.014644;70.083176
+5;Bank;Xalq banki;BXM;;;40.995694;70.065365
+6;Bank;Milliy bank;BXM;;;40.997488;70.070689
+7;Bank;Hamkorbank;Universal BXO;;;41.015655;70.082913
+8;Bank;Ipoteka bank;Filial;;;40.994492;70.055262
+9;Bank;Ipoteka bank;BXM;;;41.005803;70.076710
+10;Bank;Sanoatqurilishbank;BXM;;;40.908947;69.808218
+11;Bank;Agrobank;BXM;;;41.008417;70.088302
+12;Bank;Hamkorbank;Omad BXM;;;41.016672;70.081882
+13;Bank;Hamkorbank;Markaz BXO;;;41.009659;70.087208
+14;Microfinance organizations;Zamin;Mikromoliya tashkiloti;;;41.009802;70.087657
+15;Microfinance organizations;Delta;Mikromoliya tashkiloti;;;41.000057;70.061993
+16;Microfinance organizations;Delta;Mikromoliya tashkiloti;;;41.008151;70.076779
+17;Microfinance organizations;Agat;Mikromoliya tashkiloti;;;41.008418;70.053167
+18;Pawnshop;Hurma;Lombard;;;41.017417;70.081364
+19;Pawnshop;Tip-top;Lombard;;;41.009556;70.087993
+20;Insurance;Kafolat;Sug'urta;;;41.009641;70.079745
+21;Insurance;Kapitalbank;Sug'urta;;;41.006507;70.076082
+22;Insurance;Trust;Sug'urta;;;41.011017;70.088042
+23;Installment;Ishonch;Nasiya savdo;;;41.010005;70.080706
+24;Installment;Imkon;Nasiya savdo;;;41.014841;70.082478
+25;Installment;Garant;Nasiya savdo;;;41.011481;70.076275
+26;Installment;Idea;Nasiya savdo;;;41.017480;70.082084
+27;ATM;Sanoatqurilishbank;Uzcard;;;41.02149;70.17607
+28;ATM;Sanoatqurilishbank;Uzcard;;;41.02215;70.18451
+29;ATM;Sanoatqurilishbank;Uzcard;;24/7;40.996361;70.062251
+30;ATM;Sanoatqurilishbank;Uzcard;;24/7;41.006025;70.076754
+31;ATM;Sanoatqurilishbank;Uzcard;;;41.00863;70.07462
+32;ATM;Sanoatqurilishbank;Humo;;;41.006025;70.076754
+33;ATM;Sanoatqurilishbank;Uzcard;;24/7;41.01821;70.08131
+34;ATM;Sanoatqurilishbank;Uzcard;;24/7;41.012100;70.084127
+35;ATM;Sanoatqurilishbank;Uzcard;;;41.006025;70.076754
+36;ATM;Sanoatqurilishbank;Uzcard;;24/7;41.01265;70.10278
+37;ATM;Agrobank;Humo;;24/7;40.903740;69.639432
+38;ATM;Hamkorbank;Humo;;;41.0182779;70.0823594
+39;ATM;Hamkorbank;Uzcard;;24/7;40.997526;70.0700519
+40;ATM;Hamkorbank;Uzcard;;;40.997526;70.0700519
+41;ATM;Hamkorbank;Humo;;24/7;40.9901304;70.0538599
+42;ATM;Hamkorbank;Humo;;24/7;41.0181597;70.0827896
+43;ATM;Hamkorbank;Humo;;24/7;41.0170712;70.0821361
+44;ATM;Hamkorbank;Uzcard;;24/7;41.0083388;70.0881869
+45;ATM;Hamkorbank;ADM;;;40.997526;70.0700519
+46;ATM;Hamkorbank;Uzcard;;24/7;41.0182779;70.0823594
+47;ATM;Hamkorbank;Uzcard;;24/7;41.016546;70.0800480
+48;ATM;Hamkorbank;Uzcard;;;41.0078009;70.0896423
+49;ATM;Ipoteka bank;Uzcard;;;40.9724890;70.0406524
+50;ATM;Ipoteka bank;Humo;;24/7;41.034185;70.068324
+51;ATM;Ipoteka bank;Humo;;24/7;41.015739;70.082447
+52;ATM;Ipoteka bank;Humo;;;40.996353;70.062203
+53;ATM;Ipoteka bank;Humo;;24/7;41.007603;70.088851
+54;ATM;Ipoteka bank;Humo;;24/7;41.018591;70.082709
+55;ATM;Ipoteka bank;Humo;;;41.015227;70.091149
+56;ATM;Ipoteka bank;Humo;;;40.99041;70.10285
+57;ATM;Ipoteka bank;Humo;;;41.02681;70.08031
+58;ATM;Ipoteka bank;Humo;;;41.015739;70.082447
+59;ATM;Ipoteka bank;Uzcard;;;41.011748;70.085508
+60;ATM;Ipoteka bank;Uzcard;;;41.015739;70.082447
+61;ATM;Ipoteka bank;Uzcard;;24/7;40.98973;70.07486
+62;ATM;Ipoteka bank;Uzcard;;;41.03354;70.07994
+63;ATM;Ipoteka bank;Uzcard;;;41.015739;70.082447
+64;ATM;Ipoteka bank;Uzcard;;24/7;40.994544;70.055235
+65;ATM;Ipoteka bank;Uzcard;;;41.001960;70.121505
+66;ATM;Ipoteka bank;Uzcard;;24/7;41.01084;70.07667
+67;ATM;Milliy bank ;Humo;;24/7;41.040865;70.092424
+68;ATM;Milliy bank ;Humo;;24/7;41.018603;70.082619
+69;ATM;Milliy bank ;Uzcard;;;41.018603;70.082645
+70;ATM;Milliy bank ;Humo;;24/7;41.018551;70.082930
+71;ATM;Milliy bank ;Humo;;;41.018551;70.082930
+72;ATM;Milliy bank ;Uzcard;;;40.994338;70.058417
+73;ATM;Milliy bank ;Uzcard;;24/7;40.995517;70.065361
+74;ATM;Milliy bank ;Uzcard;;;40.979093;70.007804
+75;ATM;Milliy bank ;ADM;;;40.995517;70.065361
+76;ATM; Xalq banki;Humo;;24/7;41.023374;70.067323
+77;ATM; Xalq banki;Humo;;24/7;41.017593;70.081219
+78;ATM; Xalq banki;Humo;;24/7;41.017546;70.060150
+79;ATM; Xalq banki;Humo;;24/7;41.011215;70.065331
+80;ATM; Xalq banki;Humo;;;41.014662;70.083636
+81;ATM; Xalq banki;Humo;;24/7;41.019586;70.095723
+82;ATM; Xalq banki;Humo;;24/7;41.026018;70.074506
+83;ATM; Xalq banki;Humo;;24/7;41.009491;70.059108
+84;ATM; Xalq banki;Humo;;;41.028042;70.063557
+85;ATM; Xalq banki;Uzcard;;24/7;41.028408;70.137647
+86;ATM; Xalq banki;Uzcard;;;41.025846;70.085980
+87;ATM; Xalq banki;Uzcard;;24/7;41.032759;70.059396
+88;ATM; Xalq banki;Uzcard;;24/7;41.014662;70.083636
+89;ATM; Xalq banki;Humo;;24/7;41.010520;70.064814
+90;ATM; Xalq banki;Uzcard;;24/7;41.022852;70.076614
+91;ATM; Xalq banki;Humo;;24/7;41.009491;70.059108
+92;ATM; Xalq banki;ADM;;;41.014662;70.083636
+93;ATM;Markaziy bank ;Humo ;;24/7;41.331620;69.244160
+94;Currency exchange;Anorbank;Valyuta ayirboshlash shoxobchasi;;;41.008388;70.059168
+95;Currency exchange;Ipoteka bank;Valyuta ayirboshlash shoxobchasi;;;41.015763;70.082606
+96;Currency exchange;Ipoteka bank;Valyuta ayirboshlash shoxobchasi;;;40.994507;70.055319
+97;Currency exchange;Ipoteka bank;Valyuta ayirboshlash shoxobchasi;;;41.015763;70.082606
+98;Currency exchange;Kapitalbank;Valyuta ayirboshlash shoxobchasi;;;;
+99;Currency exchange;Milliy bank;Valyuta ayirboshlash shoxobchasi;;;40.996177;70.065197
+100;Currency exchange;Milliy bank;Valyuta ayirboshlash shoxobchasi;;;40.996177;70.065197
+101;Currency exchange;Milliy bank;Valyuta ayirboshlash shoxobchasi;;;40.996177;70.065197
+102;Currency exchange;Milliy bank;Valyuta ayirboshlash shoxobchasi;;;40.996177;70.065197
+103;Currency exchange;Sanoatqurilishbank;Valyuta ayirboshlash shoxobchasi;;;41.006322;70.076329
+104;Currency exchange;Sanoatqurilishbank;Valyuta ayirboshlash shoxobchasi;;;41.006322;70.076329
+105;Currency exchange;Sanoatqurilishbank;Valyuta ayirboshlash shoxobchasi;;;41.006322;70.076329
+106;Currency exchange;Sanoatqurilishbank;Valyuta ayirboshlash shoxobchasi;;;41.006322;70.076329
+107;Currency exchange;Hayot bank;Valyuta ayirboshlash shoxobchasi;;;41.011328;70.086119
+108;Currency exchange;Xalq banki;Valyuta ayirboshlash shoxobchasi;;;41.015763;70.082606
+109;Currency exchange;Hamkorbank;Valyuta ayirboshlash shoxobchasi;;;40.997443;70.070614
+110;Currency exchange;Hamkorbank;Valyuta ayirboshlash shoxobchasi;;;41.008260;70.088345
+111;Currency exchange;Hamkorbank;Valyuta ayirboshlash shoxobchasi;;;41.016672;70.081882
+112;Currency exchange ATM;Ipoteka bank;AvtoVASH;;;41.015763;70.082606
+113;Currency exchange ATM;Ipoteka bank;AvtoVASH;;24/7;41.015763;70.082606
+114;Currency exchange ATM;Ipoteka bank;AvtoVASH;;;40.9724890;70.0406524
+115;Currency exchange ATM;Kapitalbank;AvtoVASH;;;;
+116;Currency exchange ATM;Kapitalbank;AvtoVASH;;;;
+117;Currency exchange ATM;Kapitalbank;AvtoVASH;;;;
+118;Currency exchange ATM;Kapitalbank;AvtoVASH;;;;
+119;Currency exchange ATM;Kapitalbank;AvtoVASH;;;;
+120;Currency exchange ATM;Milliy bank;AvtoVASH;;;40.996177;70.065197
+121;Currency exchange ATM;Milliy bank;AvtoVASH;;;40.976880;70.004217
+122;Currency exchange ATM;Xalq banki;AvtoVASH;;24/7;41.015763;70.02606
+123;Currency exchange ATM;Hamkorbank;AvtoVASH;;;40.997443;70.070614
+124;Currency exchange ATM;Hamkorbank;AvtoVASH;;24/7;41.016672;70.081882
+125;Governance;Shahar hokimiyati;;;;41.007869;70.076195
+126;Governance;Angren dexqon bozori;;;;41.046622;70.097493
+127;Governance;Angren buyum bozori;;;;41.046622;70.097493
+128;Governance;Angren shahar mol bozori;;;;40.994710;70.113780
+129;Production;Yangi Angren IES;;1 958;;40.926006;69.821243
+130;Production;Eski Angren IES;;1 211;;41.001297;70.122130
+131;Production;“Oʻzbek koʻmir” AJ;;4 996;;41.007658;70.075502
+132;Production;“Birinchi rezina texnika zavodi” MCHJ;;1 029;;40.970977;70.043324
+133;Production;“Angren neftbaza” AJ;;5 000;;41.018115;70.118790
+134;Car dealership;Lion Motors;;;;41.007444;70.093649
+135;Car dealership;Auto makon;;;;41.013560;70.083403
+136;Car dealership;Car showroom;;;;41.002810;70.061504
+137;Petrol station;AYOQSH Lukoil;;;;40.985525;70.027877
+138;Petrol station;AYOQSH 1;;;;40.987373;70.027868
+139;Petrol station;AYOQSH Kosko oil;;;;40.987073;70.035964
+140;Petrol station;AYOQSH 2;;;;40.989506;70.040756
+141;Petrol station;AYOQSH Carvon;;;;40.993114;70.052384
+142;Petrol station;AYOQSH 3;;;;40.999836;70.050084
+143;Petrol station;AYOQSH 4;;;;40.996932;70.069064
+144;Petrol station;AYOQSH 5;;;;41.026584;70.074362
+145;Petrol station;AYOQSH 6;;;;41.039787;70.092975
+146;Petrol station;AYOQSH Angren Neft Biznes;;;;40.996887;70.096598
+147;Petrol station;AYOQSH 7;;;;40.995495;70.098096
+148;Petrol station;AYOQSH 8;;;;41.006978;70.091670
+149;Petrol station;AYOQSH 9;;;;41.009968;70.098282
+150;Petrol station;AYOQSH Yangiyoʻl Metan Gaz;;;;41.026152;70.136171
+151;Petrol station;AYOQSH 10;;;;41.031132;70.139895
+152;Petrol station;AYOQSH 11;;;;41.021056;70.185106
+153;Shopping center;Fresh market Angren MCHJ;;;;41.014323;70.072993
+154;Supermarket; Korzinka ;;;;41.017665;70.082139
+155;Supermarket; Fresh ;;;;41.014639;70.073810
+156;Supermarket; Fresh ;;;;41.004117;70.074975
+157;Supermarket; Afruz ;;;;41.040824;70.092493
+158;Supermarket; Kosko ;;;;41.012334;70.085946
+159;Supermarket; Afruz ;;;;41.018554;70.082836
+160;Supermarket; Havas ;;;;41.015606;70.093122
+161;Supermarket; Havas ;;;;41.015608;70.093130
+162;Supermarket; Kosko ;;;;41.002985;70.081118
+163;Supermarket; Grand ;;;;41.011308;70.065275
+164;Supermarket; Nihol ;;;;41.024022;70.056411
+165;Supermarket; Humoyun Market ;;;;40.989469;70.074896
+166;Supermarket; Fresh ;;;;41.046376;70.089525
+167;Supermarket; Fresh ;;;;41.007836;70.089572
+168;Supermarket; Ravon ;;;;41.009738;70.060148
+169;Hospital;Markaziy shifoxona;;;;41.015967;70.080584
+170;Hospital;Oilaviy poliklinika 4;;;;41.004055;70.073797
+171;Hospital;Oilaviy poliklinika 3;;;;41.023232;70.088971
+172;Hospital;Oilaviy poliklinika 3;;;;41.055128;70.083914
+173;Hospital;Shifoxona psixonevrologicheskiy;;;;41.004620;70.084470
+174;Hotel; Angren;;;;41.009812;70.076657
+175;Hotel; Angren Plaza Hotel;;;;41.000649;70.082020
+176;Hotel; Shoxdiyor;;;;40.994735;70.055666
+177;Hotel; Art Angren Hotel;;;;41.017389;70.074017
+178;Hotel; Elba;;;;41.019122;70.095559
+179;Hotel; Mohir;;;;41.007691;70.093923
+180;Hotel; Angren Camping Service;;;;41.010126;70.096977
+181;Hotel; Makon Hotel;;;;41.009646;70.095631
+182;Hotel; Fayz;;;;40.979132;70.044556
+183;Hotel; Gloria;;;;41.010744;70.082339
+184;Hotel; Fayz;;;;41.008677;70.093022
+185;Hotel; Chaykovskiy;;;;41.120507;70.097404
+186;Hotel; Shamshod Mountain Resort;;;;41.118041;70.094453
+187;Hotel; Uzbegim Yangiobod;;;;41.119604;70.093388
+188;Hotel; Yangiobod Mountain Resort;;;;41.119891;70.093582
+189;Hotel; Yangiobod Hotel;;;;41.118888;70.091965
+190;Park;Istirohat bogʻi Oxunboboyev;;;;41.013787;70.074085
+191;Park;Istirohat bogʻi A.Navoiy;;;;41.004383;70.064666
+192;Park;Istirohat bogʻi Markaziy park;;;;41.016046;70.088201
+193;Railway station;Temir yoʻl vokzali;;;;40.999288;70082447
+194;Bus station;Avto shoh bekati;;;;41.017407;70080416
+195;Street 24/7;Taraqqiyot MFY;;;24/7;41.019692;70087415
+196;Street 24/7;Istiqlol MFY;;;24/7;41.005726;70060256
+197;University;Toshkent viloyati Davlat Pedagogika universiteti;;4 932;;41.023170;70.078986

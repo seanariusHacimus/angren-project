@@ -1,12 +1,39 @@
 'use client';
 
 import { useEffect } from 'react';
+import { renderToString } from 'react-dom/server';
 import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
 import { Location } from '@/lib/storage';
 import { Button } from '@/components/ui/button';
-import { Navigation } from 'lucide-react';
+import {
+    Navigation,
+    Landmark,
+    Percent,
+    Gem,
+    Shield,
+    CreditCard,
+    Banknote,
+    RefreshCcw,
+    Building2,
+    Factory,
+    Car,
+    Fuel,
+    ShoppingBag,
+    ShoppingCart,
+    Activity,
+    Hotel,
+    Trees,
+    Train,
+    Bus,
+    MapPin,
+    GraduationCap,
+    Tag,
+    Info,
+    Layers,
+    Clock
+} from 'lucide-react';
 import { MapControls } from './MapControls';
 
 // Fix for default marker icon
@@ -57,7 +84,8 @@ function FlyToLocation({ location }: { location: Location | null }) {
     const map = useMap();
     useEffect(() => {
         if (location) {
-            map.flyTo([location.lat, location.lng], 16, {
+            const targetZoom = Math.max(map.getZoom(), 16);
+            map.flyTo([location.lat, location.lng], targetZoom, {
                 duration: 1.5
             });
         }
@@ -84,6 +112,66 @@ function UserLocationMarker({ location }: { location: { lat: number; lng: number
     );
 }
 
+const categoryColors: Record<string, string> = {
+    'Bank': 'hsl(var(--chart-1))',
+    'Microfinance organizations': 'hsl(var(--chart-2))',
+    'Pawnshop': 'hsl(var(--chart-3))',
+    'Insurance': 'hsl(var(--chart-4))',
+    'Installment': 'hsl(var(--chart-5))',
+    'ATM': 'hsl(var(--chart-6))',
+    'Currency exchange': 'hsl(var(--chart-7))',
+    'Currency exchange ATM': 'hsl(var(--chart-8))',
+    'Governance': 'hsl(var(--chart-9))',
+    'Production': 'hsl(var(--chart-10))',
+    'Car dealership': 'hsl(var(--chart-1))',
+    'Petrol station': 'hsl(var(--chart-2))',
+    'Shopping center': 'hsl(var(--chart-3))',
+    'Supermarket': 'hsl(var(--chart-4))',
+    'Hospital': 'hsl(var(--chart-5))',
+    'Hotel': 'hsl(var(--chart-6))',
+    'Park': 'hsl(var(--chart-7))',
+    'Railway station': 'hsl(var(--chart-8))',
+    'Bus station': 'hsl(var(--chart-9))',
+    'Street 24/7': 'hsl(var(--chart-10))',
+    'University': 'hsl(var(--chart-1))',
+};
+
+function getCategoryColor(category: string) {
+    return categoryColors[category] || 'hsl(var(--primary))';
+}
+
+function getCategoryIcon(category: string, color: string) {
+    const props = { size: 12, color: color, strokeWidth: 3 };
+    let icon;
+
+    switch (category) {
+        case 'Bank': icon = <Landmark {...props} />; break;
+        case 'Microfinance organizations': icon = <Percent {...props} />; break;
+        case 'Pawnshop': icon = <Gem {...props} />; break;
+        case 'Insurance': icon = <Shield {...props} />; break;
+        case 'Installment': icon = <CreditCard {...props} />; break;
+        case 'ATM': icon = <Banknote {...props} />; break;
+        case 'Currency exchange': icon = <RefreshCcw {...props} />; break;
+        case 'Currency exchange ATM': icon = <RefreshCcw {...props} />; break;
+        case 'Governance': icon = <Building2 {...props} />; break;
+        case 'Production': icon = <Factory {...props} />; break;
+        case 'Car dealership': icon = <Car {...props} />; break;
+        case 'Petrol station': icon = <Fuel {...props} />; break;
+        case 'Shopping center': icon = <ShoppingBag {...props} />; break;
+        case 'Supermarket': icon = <ShoppingCart {...props} />; break;
+        case 'Hospital': icon = <Activity {...props} />; break;
+        case 'Hotel': icon = <Hotel {...props} />; break;
+        case 'Park': icon = <Trees {...props} />; break;
+        case 'Railway station': icon = <Train {...props} />; break;
+        case 'Bus station': icon = <Bus {...props} />; break;
+        case 'Street 24/7': icon = <MapPin {...props} />; break;
+        case 'University': icon = <GraduationCap {...props} />; break;
+        default: icon = <MapPin {...props} />;
+    }
+
+    return renderToString(icon);
+}
+
 export default function Map({ locations, onAddLocation, userLocation, selectedLocation, addLocationMode, onSelectLocation }: MapProps) {
     const defaultCenter: [number, number] = [41.0058, 70.1438]; // Angren coordinates
 
@@ -98,9 +186,10 @@ export default function Map({ locations, onAddLocation, userLocation, selectedLo
             {/* @ts-ignore */}
             <MarkerClusterGroup
                 chunkedLoading
+                disableClusteringAtZoom={16}
                 iconCreateFunction={(cluster: any) => {
                     return L.divIcon({
-                        html: `<div class="flex items-center justify-center w-10 h-10 bg-primary text-primary-foreground rounded-full shadow-lg border-2 border-background font-bold text-sm">
+                        html: `<div class="flex items-center justify-center w-10 h-10 bg-primary text-primary-foreground rounded-full shadow-md border-4 border-background font-bold text-sm transition-transform hover:scale-110">
                                  ${cluster.getChildCount()}
                                </div>`,
                         className: 'custom-cluster-icon',
@@ -108,92 +197,107 @@ export default function Map({ locations, onAddLocation, userLocation, selectedLo
                     });
                 }}
             >
-                {locations.map((loc) => (
-                    <Marker
-                        key={loc.id}
-                        position={[loc.lat, loc.lng]}
-                        icon={L.divIcon({
-                            className: 'custom-marker',
-                            html: `<div class="pin-3d">
-                                 <div class="pin-head"></div>
+                {locations.map((loc) => {
+                    const color = getCategoryColor(loc.category);
+                    const iconHtml = getCategoryIcon(loc.category, color);
+
+                    return (
+                        <Marker
+                            key={loc.id}
+                            position={[loc.lat, loc.lng]}
+                            icon={L.divIcon({
+                                className: 'custom-marker',
+                                html: `<div class="pin-3d">
+                                 <div class="pin-head" style="background: ${color}">
+                                    <div class="pin-inner">
+                                        <div class="pin-icon">${iconHtml}</div>
+                                    </div>
+                                 </div>
                                  <div class="pin-shadow"></div>
                                </div>`,
-                            iconSize: [30, 30],
-                            iconAnchor: [15, 30],
-                            popupAnchor: [0, -30]
-                        })}
-                        eventHandlers={{
-                            click: () => {
-                                if (selectedLocation?.id !== loc.id) {
-                                    onSelectLocation(loc);
+                                iconSize: [30, 30],
+                                iconAnchor: [15, 30],
+                                popupAnchor: [0, -30]
+                            })}
+                            eventHandlers={{
+                                click: () => {
+                                    if (selectedLocation?.id !== loc.id) {
+                                        onSelectLocation(loc);
+                                    }
                                 }
-                            }
-                        }}
-                    >
-                        <Popup className="custom-popup">
-                            <div className="p-1 min-w-[250px] max-w-[300px]">
-                                <div className="flex items-center justify-between gap-2 mb-3">
-                                    <div className="flex items-center gap-2">
-                                        <div className="p-2 bg-primary/10 rounded-full shrink-0">
-                                            <Navigation className="w-4 h-4 text-primary" />
+                            }}
+                        >
+                            <Popup className="custom-popup">
+                                <div className="p-0 min-w-[280px] max-w-[320px] overflow-hidden rounded-xl border bg-card text-card-foreground shadow-lg">
+                                    <div className="p-4">
+                                        <div className="flex items-start gap-3 mb-4 pb-3 border-b">
+                                            <div className="p-2.5 bg-primary/5 rounded-full shrink-0 text-primary">
+                                                <Navigation className="w-5 h-5" />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-lg leading-tight tracking-tight">
+                                                    {loc.name}
+                                                </h3>
+                                                <p className="text-xs text-muted-foreground mt-1 font-medium">Location Details</p>
+                                            </div>
                                         </div>
-                                        <h3 className="font-bold text-base leading-tight">{loc.name}</h3>
+
+                                        <div className="space-y-2.5 text-sm">
+                                            <div className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-transparent hover:border-border/50">
+                                                <Tag className="w-4 h-4 text-muted-foreground shrink-0" />
+                                                <div className="flex flex-col gap-0.5">
+                                                    <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Category</span>
+                                                    <span className="font-medium">{loc.category}</span>
+                                                </div>
+                                            </div>
+
+                                            {loc.type && (
+                                                <div className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-transparent hover:border-border/50">
+                                                    <Info className="w-4 h-4 text-muted-foreground shrink-0" />
+                                                    <div className="flex flex-col gap-0.5">
+                                                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Type</span>
+                                                        <span>{loc.type}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {loc.model && (
+                                                <div className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-transparent hover:border-border/50">
+                                                    <Layers className="w-4 h-4 text-muted-foreground shrink-0" />
+                                                    <div className="flex flex-col gap-0.5">
+                                                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Model</span>
+                                                        <span>{loc.model}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {loc.status && (
+                                                <div className="flex items-center gap-3 p-2.5 rounded-lg bg-muted/50 hover:bg-muted transition-colors border border-transparent hover:border-border/50">
+                                                    <Clock className="w-4 h-4 text-muted-foreground shrink-0" />
+                                                    <div className="flex flex-col gap-0.5">
+                                                        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold">Status</span>
+                                                        <span>{loc.status}</span>
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <Button
+                                            className="w-full mt-5 h-9 text-xs font-semibold shadow-sm"
+                                            onClick={() => {
+                                                window.open(`https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`, '_blank');
+                                            }}
+                                        >
+                                            Open in Google Maps
+                                        </Button>
                                     </div>
                                 </div>
+                            </Popup>
 
-                                <div className="space-y-2 text-sm">
-                                    <div className="grid grid-cols-3 gap-1">
-                                        <span className="text-muted-foreground font-medium text-xs">Bank:</span>
-                                        <span className="col-span-2 font-medium">{loc.bank}</span>
-                                    </div>
-                                    {loc.branch && (
-                                        <div className="grid grid-cols-3 gap-1">
-                                            <span className="text-muted-foreground font-medium text-xs">Branch:</span>
-                                            <span className="col-span-2">{loc.branch}</span>
-                                        </div>
-                                    )}
-                                    {loc.model && (
-                                        <div className="grid grid-cols-3 gap-1">
-                                            <span className="text-muted-foreground font-medium text-xs">Model:</span>
-                                            <span className="col-span-2">{loc.model}</span>
-                                        </div>
-                                    )}
-                                    {loc.city && (
-                                        <div className="grid grid-cols-3 gap-1">
-                                            <span className="text-muted-foreground font-medium text-xs">City:</span>
-                                            <span className="col-span-2">{loc.city}</span>
-                                        </div>
-                                    )}
-                                    {loc.neighborhood && (
-                                        <div className="grid grid-cols-3 gap-1">
-                                            <span className="text-muted-foreground font-medium text-xs">Area:</span>
-                                            <span className="col-span-2">{loc.neighborhood}</span>
-                                        </div>
-                                    )}
-                                    {loc.address && (
-                                        <div className="grid grid-cols-3 gap-1">
-                                            <span className="text-muted-foreground font-medium text-xs">Address:</span>
-                                            <span className="col-span-2">{loc.address}</span>
-                                        </div>
-                                    )}
-                                    {loc.status && (
-                                        <div className="grid grid-cols-3 gap-1">
-                                            <span className="text-muted-foreground font-medium text-xs">Status:</span>
-                                            <span className="col-span-2">{loc.status === '1' ? 'Active' : 'Inactive'}</span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <Button className="w-full mt-4 h-8 text-xs" onClick={() => {
-                                    window.open(`https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lng}`, '_blank');
-                                }}>
-                                    Open in Google Maps
-                                </Button>
-                            </div>
-                        </Popup>
-                    </Marker>
-                ))}
-            </MarkerClusterGroup>
-        </MapContainer>
+                        </Marker >
+                    )
+                })}
+            </MarkerClusterGroup >
+        </MapContainer >
     );
 }
